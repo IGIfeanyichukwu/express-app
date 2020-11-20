@@ -1,22 +1,32 @@
 const express = require('express');
 const path = require('path');
-const moment = require('moment');
 const members = require('./Members');
+const logger = require('./middleware/logger');
 
 const app = express();
 
-// creates a simple middleware function
-const logger = (req, res, next) => {
-	console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}: ${moment().format()}`);
-}
-
 // Initialize middleware
-app.use(logger);
+// app.use(logger);
 
-// gets all members
+// GET ALL MEMBERS
 app.get('/api/members', (req, res) => {
 	res.json(members);
 })
+
+
+// GET A SINGLE MEMBER
+app.get('/api/members/:id', (req, res) => {
+	/*NB: req.params.id holds the id passed to the url*/
+	const found = members.some(member => member.id === parseInt(req.params.id));
+
+	if(found) {
+		res.json(members.filter(member => member.id === parseInt(req.params.id)));
+	} else {
+		res.status(400).json({ msg: `No member with the id of ${req.params.id}` })
+	}
+
+});
+
 
 //create a route
 /*app.get('/', (req, res) => {
