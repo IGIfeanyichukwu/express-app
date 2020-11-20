@@ -1,31 +1,16 @@
 const express = require('express');
 const path = require('path');
-const members = require('./Members');
 const logger = require('./middleware/logger');
 
 const app = express();
 
+/*>>> MIDDLEWARE <<<*/
 // Initialize middleware
 // app.use(logger);
 
-// GET ALL MEMBERS
-app.get('/api/members', (req, res) => {
-	res.json(members);
-})
-
-
-// GET A SINGLE MEMBER
-app.get('/api/members/:id', (req, res) => {
-	/*NB: req.params.id holds the id passed to the url*/
-	const found = members.some(member => member.id === parseInt(req.params.id));
-
-	if(found) {
-		res.json(members.filter(member => member.id === parseInt(req.params.id)));
-	} else {
-		res.status(400).json({ msg: `No member with the id of ${req.params.id}` })
-	}
-
-});
+// Initialize Body Parser Middleware (for parsing application/json)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false}))
 
 
 //create a route
@@ -36,6 +21,9 @@ app.get('/api/members/:id', (req, res) => {
 
 // Set static folder for static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// MEMBERS API ROUTES
+app.use('/api/members', require('./routes/api/member'));
 
 const PORT = process.env.PORT || 5000; //normally this should be in a separate config file
 
