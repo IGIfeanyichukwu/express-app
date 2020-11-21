@@ -7,7 +7,7 @@ const members = require('../../Members');
 
 // GET ALL MEMBERS
 router.get('/', (req, res) => {
-	res.json(members);
+	res.json(members); // will show json data
 })
 
 
@@ -41,6 +41,7 @@ router.post('/', (req, res) => {
 
 	members.push(newMember);
 	res.json(members);
+	// res.redirect('/'); // will redirect to home
 });
 
 // UPDATE MEMBER
