@@ -14,7 +14,7 @@
     "express",
     "app"
   ],
-  "author": "Ifeanyichukwu Gideon Idoko <if3cofr3sh@gmail.com> (Ifex)",
+  "author": "Gideon Idoko <iamgideonidoko@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
